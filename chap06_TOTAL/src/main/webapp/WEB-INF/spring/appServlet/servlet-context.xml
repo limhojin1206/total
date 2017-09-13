@@ -16,12 +16,24 @@
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
 	<context:component-scan base-package="org.estrella.app" />
+	<context:component-scan base-package="org.estrella.app.controller"/>
+	<context:component-scan base-package="org.estrella.app.model"/>
 	
 	<!-- Mapper -->
 	<bean class="com.fasterxml.jackson.databind.ObjectMapper" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-		
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+		<property name="order" value="1"/>
+	</bean>
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles/tiles-config.xml</value>
+				<value>/WEB-INF/tiles/tiles-config-advance.xml</value>
+			</list>
+		</property>
+	</bean>
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
@@ -58,6 +70,11 @@
 	<!-- mybatis config -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="factory">
 		<property name="dataSource" ref="ds" />
+		<property name="mapperLocations">
+			<list>
+				<value>/WEB-INF/mapper/member-mapper.xml</value>
+			</list>
+		</property>
 	</bean>
 
  	<bean class="org.mybatis.spring.SqlSessionTemplate" c:sqlSessionFactory-ref="factory" />

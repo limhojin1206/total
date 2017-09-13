@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<insert id="add" parameterType="java.util.HashMap">
+		insert into member(id,pass,email) values(#{id},#{pass},#{email})
+	</insert>
+	<insert id="addDetail">
+		insert into detail(id) values(#{id})
+	</insert>
+	
+	<select id="readOne" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select * from member where id=#{id}
+	</select>
+	
+	<select id="existCheck" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(*) from member where (id=#{idmail} or email=#{idmail}) and pass=#{pass}
+	</select>
+	
+	<select id="readByGender" resultType="java.util.HashMap">
+		select * from detail where gender=#{gender}
+	</select>
+	
+	<insert id="join">
+		insert into member(id,pass,email) values(#{id},#{pass},#{email})
+	</insert>
+		
+	<select id="getDetail" resultType="java.util.HashMap">
+		select * from member where id=#{id ,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="emailcheck" resultType="java.util.HashMap">
+		select * from member where email=#{email, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="login" resultType="java.util.HashMap">
+		select * from member where (id=#{ids,jdbcType=VARCHAR} or email=#{ids,jdbcType=VARCHAR}) and pass=#{pass,jdbcType=VARCHAR}
+	</select>	
+</mapper>
