@@ -3,26 +3,26 @@
 <tiles-definitions>
 	<definition name="tw_*" extends="t_base">
 		<put-attribute name="title" value="{1}"/>
-		<put-attribute name="section" value="/WEB-INF/view/{1}.jsp"/>
+		<put-attribute name="section" value="/WEB-INF/views/{1}.jsp"/>
 	</definition>
 	<definition name="tw_*/*" extends="t_base">
 		<put-attribute name="title" value="{2}"/>
-		<put-attribute name="section" value="/WEB-INF/view/{1}/{2}.jsp"/>
+		<put-attribute name="section" value="/WEB-INF/views/{1}/{2}.jsp"/>
 	</definition>
 	
 	<!-- el -->
 	<definition name="t_expr" extends="t_base">
 		<put-attribute name="title" expression="${title}"/>
-		<put-attribute name="section" expression="/WEB-INF/view/${section}.jsp"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
 	</definition>
 	
 	<!-- nested template -->
 	<definition name="t_m_expre" extends="t_base">
 		<put-attribute name="title" value="경매"/>
 		<put-attribute name="section">
-			<definition template="/WEB-INF/view/template_sub.jsp">
-				<put-attribute name="m_nav" value="/WEB-INF/view/market/nav.jsp"/>
-				<put-attribute name="m_section" expression="/WEB-INF/view/market/${section}.jsp"/>
+			<definition template="/WEB-INF/views/template_sub.jsp">
+				<put-attribute name="m_nav" value="/WEB-INF/views/market/nav.jsp"/>
+				<put-attribute name="m_section" expression="/WEB-INF/views/market/${section}.jsp"/>
 			</definition>
 		</put-attribute>
 	</definition>
