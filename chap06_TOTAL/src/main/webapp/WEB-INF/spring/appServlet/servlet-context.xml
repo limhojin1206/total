@@ -16,8 +16,7 @@
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
 	<context:component-scan base-package="org.estrella.app" />
-	<context:component-scan base-package="org.estrella.app.controller"/>
-	<context:component-scan base-package="org.estrella.app.model"/>
+	
 	
 	<!-- Mapper -->
 	<bean class="com.fasterxml.jackson.databind.ObjectMapper" />
@@ -30,7 +29,6 @@
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/tiles/tiles-config.xml</value>
-				<value>/WEB-INF/tiles/tiles-config-advance.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -72,7 +70,7 @@
 		<property name="dataSource" ref="ds" />
 		<property name="mapperLocations">
 			<list>
-				<value>/WEB-INF/mapper/member-mapper.xml</value>
+				<value>/WEB-INF/mapper/*-mapper.xml</value>
 			</list>
 		</property>
 	</bean>

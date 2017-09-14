@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -33,17 +34,23 @@ public class MemberController {
 	ObjectMapper mapper;
 	
 	@GetMapping("/join")
-	public String joinGetHandle() {
-		return "t_join";
+	public String joinGetHandle(Map map) {
+		map.put("title", "JOIN");
+		map.put("section", "member/join");
+		return "t_expr";
 	}
 	
 	@PostMapping("/join")
-	public String joinPostHandle(@RequestParam Map map, HttpServletRequest request) throws ClassNotFoundException, SQLException, JsonParseException, JsonMappingException, IOException {
+	public String joinPostHandle(@RequestParam Map map, HttpServletRequest request, HttpSession session) throws ClassNotFoundException, SQLException, JsonParseException, JsonMappingException, IOException {
 		int r = mdao.join(map);
 		System.out.println("r : " + r);
 		if(r == 2) {
 			System.out.println("가입성공");
-			return "redirect:joinres"; 
+			map.put("ids", map.get("id"));
+			Map lmap = mdao.login(map);
+			System.out.println(lmap.toString());
+			session.setAttribute("auth", lmap);
+			return "redirect:session"; 
 		}
 		System.out.println("가입실패");
 		return "redirect:join"; 
@@ -76,18 +83,21 @@ public class MemberController {
 			
 	}
 	
-	@RequestMapping("/joinres")
-	public void joinres() {
-	}
 	
 	@RequestMapping("/session")
-	public String session() {
-		return "t_index";
+	public ModelAndView session() {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("title", "index");
+		mav.addObject("section", "index");
+		return mav;
 	}
 	
 	@GetMapping("/login")
-	public String loginHandle() {
-		return "t_login";
+	public ModelAndView loginHandle() {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("title", "LOGIN");
+		mav.addObject("section", "member/login");
+		return mav;
 	}
 
 	@PostMapping("/login")
@@ -97,7 +107,9 @@ public class MemberController {
 			System.out.println("로그인 성공");
 			System.out.println(lmap.toString());
 			session.setAttribute("auth", lmap);
-			
+			if(session.getAttribute("temp") != null) {
+				session.removeAttribute("temp");
+			}
 			return "redirect:session"; 
 		}
 		System.out.println("로그인 실패");

@@ -8,39 +8,36 @@
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
 	</definition>
 	
-	<definition name="t_join" extends="t_base">
-		<put-attribute name="title" value="JOIN"/>
-		<put-attribute name="section" value="/WEB-INF/views/member/join.jsp"/>
+	<definition name="tw_*" extends="t_base">
+		<put-attribute name="title" value="{1}"/>
+		<put-attribute name="section" value="/WEB-INF/views/{1}.jsp"/>
 	</definition>
 	
-	<definition name="t_login" extends="t_base">
-		<put-attribute name="title" value="LOGIN"/>
-		<put-attribute name="section" value="/WEB-INF/views/member/login.jsp"/>
+	<definition name="tw_*/*" extends="t_base">
+		<put-attribute name="title" value="{2}"/>
+		<put-attribute name="section" value="/WEB-INF/views/{1}/{2}.jsp"/>
 	</definition>
 	
-	<definition name="t_market" extends="t_base">
-		<put-attribute name="title" value="MARKET"/>
-		<put-attribute name="section" value="/WEB-INF/views/market/list.jsp"/>
+	<!-- el -->
+	<definition name="t_expr" extends="t_base">
+		<put-attribute name="title" expression="${title}"/>
+		<put-attribute name="section" expression="/WEB-INF/views/${section}.jsp"/>
+	</definition>
+	
+	<!-- nested template -->
+	<definition name="t_m_expre" extends="t_base">
+		<put-attribute name="title" value="경매"/>
+		<put-attribute name="section">
+			<definition template="/WEB-INF/views/template_sub.jsp">
+				<put-attribute name="m_nav" value="/WEB-INF/views/market/nav.jsp"/>
+				<put-attribute name="m_section" expression="/WEB-INF/views/market/${section}.jsp"/>
+			</definition>
+		</put-attribute>
 	</definition>
 	
 	<definition name="t_index" extends="t_base">
 		<put-attribute name="title" value="SPRING WEB"/>
 		<put-attribute name="section" value="/WEB-INF/views/index.jsp"/>
-	</definition>
-	
-	<definition name="t_board">
-		<put-attribute name="title" value="BOARD"/>
-		<put-attribute name="section" value="/WEB-INF/views/board/list.jsp"/>
-	</definition>
-	
-	<definition name="t_boardView" extends="t_base">
-		<put-attribute name="title" expression="${t.NUM}번 글" />
-		<put-attribute name="section" value="/WEB-INF/views/board/view.jsp"/>
-	</definition>
-	
-	<definition name="t_boardAdd" extends="t_base">
-		<put-attribute name="title" value="글쓰기" />
-		<put-attribute name="section" value="/WEB-INF/views/board/add.jsp"/>
 	</definition>
 	
 </tiles-definitions>	
