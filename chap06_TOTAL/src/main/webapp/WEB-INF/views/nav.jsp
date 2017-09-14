@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div align="right">
-	<c:if test="${!empty auth}"><b>${auth.ID }</b>님 환영합니다!!  |</c:if> 
+	<c:if test="${!empty auth}">
+	
+	<a href="/my/info"><b>${auth.ID }</b></a>님 환영합니다!!
+	
+	  |</c:if> 
 	<c:choose>
 		<c:when test="${empty auth}"><a href="/member/login">LOGIN</a> | <a href="/member/join">JOIN</a></c:when>
 		<c:otherwise><a href="/member/logout">LOGOUT</a> </c:otherwise>

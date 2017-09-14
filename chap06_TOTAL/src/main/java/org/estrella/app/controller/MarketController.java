@@ -61,6 +61,8 @@ public class MarketController {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("section", "member/login");
 		mav.addObject("title", "LOGIN");
+		mav.addObject("pagemove", "/market/list");
+		System.out.println("pagemove »ý¼º");
 		return mav;
 		
 	}

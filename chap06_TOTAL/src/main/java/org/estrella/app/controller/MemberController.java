@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.estrella.app.model.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,8 +64,8 @@ public class MemberController {
 		Map map = mapper.readValue(body, Map.class);
 		
 		if(mode.equals("id")) {
-			List list = mdao.getDetail(map);
-			if(list.size() == 0) {
+			Map dmap = mdao.getDetail(map);
+			if(dmap.size() == 0) {
 				msg = "<span style=\"color:blue\"><b>사용가능한 아이디입니다.</b></span>";
 			}else {
 				msg = "<span style=\"color:red\"><b>사용할수 없는 아이디입니다.</b></span>";
@@ -84,16 +85,10 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping("/session")
-	public ModelAndView session() {
-		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("title", "index");
-		mav.addObject("section", "index");
-		return mav;
-	}
+
 	
 	@GetMapping("/login")
-	public ModelAndView loginHandle() {
+	public ModelAndView loginHandle(HttpSession session) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("title", "LOGIN");
 		mav.addObject("section", "member/login");
@@ -101,20 +96,23 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String loginHandle(@RequestParam Map map, HttpSession session) {
+	public String loginHandle(@RequestParam Map map, HttpSession session, Model model) {
 		Map lmap = mdao.login(map);
 		if(lmap !=null) {
 			System.out.println("로그인 성공");
-			System.out.println(lmap.toString());
 			session.setAttribute("auth", lmap);
-			if(session.getAttribute("temp") != null) {
-				session.removeAttribute("temp");
+			if(session.getAttribute("pagemove") != null) {
+				System.out.println("pagemove 있음 : " +  session.getAttribute("pagemove"));
+				return "redirect:"+session.getAttribute("pagemove");
 			}
-			return "redirect:session"; 
+			return "redirect:/"; 
+		}else {
+			System.out.println("로그인 실패");
+			model.addAttribute("section", "/member/login");
+			model.addAttribute("title","로그인 실패");
+			model.addAttribute("temp", "fail");
 		}
-		System.out.println("로그인 실패");
-		session.setAttribute("temp", "fail");
-		return "redirect:login"; 
+		return "t_expr"; 
 	}
 	
 	@RequestMapping("/logout")

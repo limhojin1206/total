@@ -1,6 +1,7 @@
 package org.estrella.app.model;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +22,8 @@ public class MemberDao {
 		return rst;
 	}
 	
-	public List<Map> getDetail (Map map) {
-		return template.selectList("member.getDetail", map);
+	public Map getDetail (Map map) {
+		return template.selectOne("member.getDetail", map);
 	}
 	
 	public List<Map> emailcheck (Map map) {
