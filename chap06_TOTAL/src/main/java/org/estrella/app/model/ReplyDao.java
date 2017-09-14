@@ -24,4 +24,5 @@ public class ReplyDao {
 	public int delOne(Map map) {
 		return template.delete("reply.delOne",map);
 	}
+	
 }

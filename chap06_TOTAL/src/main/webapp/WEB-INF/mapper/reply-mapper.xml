@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+	<insert id="createNewOne" parameterType="hashmap">
+		insert into reply values(reply_seq.nextval,#{parent},#{writer},#{content},#{pass})
+	</insert>
+	
+	<select id="readSome" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from reply where parent=#{parent} order by num desc
+	</select>
+	
+	<delete id="delOne" >
+		delete from  reply where num=#{num} and pass=#{pass}
+	</delete>
+</mapper>

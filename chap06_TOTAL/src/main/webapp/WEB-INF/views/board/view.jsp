@@ -50,6 +50,10 @@
 				if(obj == -1){
 					window.alert("도배금지");
 				}
+				document.getElementById("writer").innerHTML = "";
+				document.getElementById("content").innerHTML = "";
+				document.getElementById("pass").innerHTML = "";
+				mentlist();
 			}
 		}
 		mentlist();
