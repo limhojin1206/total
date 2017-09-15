@@ -9,7 +9,7 @@
 	  |</c:if> 
 	<c:choose>
 		<c:when test="${empty auth}"><a href="/member/login">LOGIN</a> | <a href="/member/join">JOIN</a></c:when>
-		<c:otherwise><a href="/member/logout">LOGOUT</a> </c:otherwise>
+		<c:otherwise><a href="/member/logout">LOGOUT </a> | <a href="/my/info">INFO</a></c:otherwise>
 	</c:choose>
 	
 	

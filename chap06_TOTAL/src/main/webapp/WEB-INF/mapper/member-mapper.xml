@@ -27,7 +27,11 @@
 	</insert>
 		
 	<select id="getDetail" resultType="java.util.HashMap">
-		select d.*, m.pass, m.email from detail d join member m on d.id=m.id where m.id=#{id ,jdbcType=VARCHAR}
+		select d.*, m.pass, m.email from detail d join member m on d.id=m.id where m.id = #{ID}
+	</select>
+	
+	<select id="idcheck" resultType="java.util.HashMap">
+		select * from member where id=#{id, jdbcType=VARCHAR}
 	</select>
 	
 	<select id="emailcheck" resultType="java.util.HashMap">

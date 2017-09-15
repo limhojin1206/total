@@ -26,6 +26,10 @@ public class MemberDao {
 		return template.selectOne("member.getDetail", map);
 	}
 	
+	public List<Map> idcheck (Map map) {
+		return template.selectList("member.emailcheck", map);
+	}
+	
 	public List<Map> emailcheck (Map map) {
 		return template.selectList("member.emailcheck", map);
 	}
@@ -33,5 +37,13 @@ public class MemberDao {
 	public Map login (Map map) {
 		return template.selectOne("member.login", map);
 	} 
+	
+	public int addPic(Map map) {
+		return template.insert("my.addPic", map);
+	}
+	
+	public Map prePic(Map map) {
+		return template.selectOne("my.prePic", map);
+	}
 	
 }

@@ -2,6 +2,7 @@ package org.estrella.app.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ public class MemberController {
 	MemberDao mdao;
 	@Autowired
 	ObjectMapper mapper;
+	@Autowired
+	SimpleDateFormat sdf;
 	
 	@GetMapping("/join")
 	public String joinGetHandle(Map map) {
@@ -64,8 +67,8 @@ public class MemberController {
 		Map map = mapper.readValue(body, Map.class);
 		
 		if(mode.equals("id")) {
-			Map dmap = mdao.getDetail(map);
-			if(dmap.size() == 0) {
+			List list = mdao.idcheck(map);
+			if(list.size() == 0) {
 				msg = "<span style=\"color:blue\"><b>사용가능한 아이디입니다.</b></span>";
 			}else {
 				msg = "<span style=\"color:red\"><b>사용할수 없는 아이디입니다.</b></span>";
@@ -81,48 +84,5 @@ public class MemberController {
 			}
 		}
 		return msg;
-			
-	}
-	
-	
-
-	
-	@GetMapping("/login")
-	public ModelAndView loginHandle(HttpSession session) {
-		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("title", "LOGIN");
-		mav.addObject("section", "member/login");
-		return mav;
-	}
-
-	@PostMapping("/login")
-	public String loginHandle(@RequestParam Map map, HttpSession session, Model model) {
-		Map lmap = mdao.login(map);
-		if(lmap !=null) {
-			System.out.println("로그인 성공");
-			session.setAttribute("auth", lmap);
-			if(session.getAttribute("pagemove") != null) {
-				System.out.println("pagemove 있음 : " +  session.getAttribute("pagemove"));
-				return "redirect:"+session.getAttribute("pagemove");
-			}
-			return "redirect:/"; 
-		}else {
-			System.out.println("로그인 실패");
-			model.addAttribute("section", "/member/login");
-			model.addAttribute("title","로그인 실패");
-			model.addAttribute("temp", "fail");
-		}
-		return "t_expr"; 
-	}
-	
-	@RequestMapping("/logout")
-	public String logoutHandle(HttpSession session) {
-		if(session.getAttribute("auth") != null) {
-			session.removeAttribute("auth");
-			System.out.println("로그아웃 성공");
-		}else {
-			System.out.println("잘못된 접근입니다.");
-		}
-		return "t_index";
 	}
 }
