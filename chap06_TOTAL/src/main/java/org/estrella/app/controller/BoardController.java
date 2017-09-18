@@ -1,14 +1,17 @@
 package org.estrella.app.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.estrella.app.model.BoardDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,9 +34,41 @@ public class BoardController {
 	@RequestMapping(path = "/list")
 	public String listHandle(Map map, HttpServletRequest request) {
 		request.setAttribute("list", bdao.readAll());
-		System.out.println(bdao.readAll());
+		//System.out.println(bdao.readAll());
 		map.put("section", "board/list");
 		map.put("title", "글목록");
+		return "t_expr";
+	}
+	
+	@RequestMapping("/blist")
+	public String blistHandle(Map map, HttpServletRequest request, HttpSession session, @RequestParam(name="page", defaultValue="1") int page) {
+		List<Map> boardAllList = bdao.readAll();
+		request.setAttribute("boardAllList", boardAllList);
+		int pagecontroll = 0;
+		if(boardAllList.size()%5.0 == 0) {
+			pagecontroll = boardAllList.size()/5;
+		}else {
+			pagecontroll = (boardAllList.size()/5)+1;
+		}
+		
+		if(page < 1) {
+			page = 1;
+		}else if(page > pagecontroll) {
+			
+			page = pagecontroll;
+		}
+		Map bmap = new HashMap<>();
+		if(page==1) {
+			bmap.put("START", 1);
+			bmap.put("END", 5);
+		}else {
+			bmap.put("START", ((page-1)*5)+1);
+			bmap.put("END", ((page-1)*5)+5);
+		}
+		request.setAttribute("boardlist", bdao.readBlist(bmap));
+		map.put("section", "board/list");
+		map.put("title", "글목록");
+		map.put("page", page);
 		return "t_expr";
 	}
 

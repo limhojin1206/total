@@ -16,14 +16,14 @@ th {
 		<thead>
 			<tr>
 				<th width="20%">글번호</th>
-				<th width="54%">글제목</th>
-				<th width="10%">작성자</th>
+				<th width="45%">글제목</th>
+				<th width="15%">작성자</th>
 				<th width="10%">조회수</th>
 				<th width="10%">작성일</th>
 			</tr>
 		</thead>
 		<tbody align="center">
-			<c:forEach var="t" items="${list}">
+			<c:forEach var="t" items="${boardlist}">
 				<tr>
 					<td>${t.NUM}</td>
 					<td><a href="/board/view/${t.NUM}">
@@ -56,4 +56,34 @@ th {
 		</tfoot>
 	</table>
 	<a href="/board/add"><button type="button">글작성</button></a>
+	<div>
+		<c:if test="${page > 1 }">◀</c:if>
+		<c:choose>
+			<c:when test="${(fn:length(boardAllList) % 5.0) == 0}">
+				<c:forEach var="ch" begin="1" end="${(fn:length(boardAllList) / 5)}" step="1">
+					<c:choose>
+						<c:when test="${ch == page}">
+							<b>[${ch}]</b>
+						</c:when>
+						<c:otherwise>
+							<a href="/board/blist?page=${ch}">[${ch}]</a> 
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="ch" begin="1" end="${(fn:length(boardAllList) / 5) +1}" step="1">
+					<c:choose>
+						<c:when test="${ch == page}">
+							<b>[${ch}]</b>
+						</c:when>
+						<c:otherwise>
+							<a href="/board/blist?page=${ch}">[${ch}]</a> 
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
+		<c:if test="${page < (fn:length(boardAllList) / 5) }">▶</c:if>
+	</div>
 </div>

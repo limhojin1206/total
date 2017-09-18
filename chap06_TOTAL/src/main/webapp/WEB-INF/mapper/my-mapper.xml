@@ -14,4 +14,6 @@
 	<select id="prePic">
 		select * from (select * from profile where id=#{ID} order by regdate desc) where rownum=1
 	</select>
+	
+	
 </mapper>

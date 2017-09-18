@@ -46,4 +46,11 @@ public class MemberDao {
 		return template.selectOne("my.prePic", map);
 	}
 	
+	public List<Map> readAll() {
+		return template.selectList("member.readAll");
+	}
+	
+	public List<Map> readMlist(Map map) {
+		return template.selectList("member.readMlist", map);
+	}
 }

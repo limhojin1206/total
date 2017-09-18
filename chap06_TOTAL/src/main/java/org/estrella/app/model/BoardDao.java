@@ -28,4 +28,8 @@ public class BoardDao {
 	public Map readOne(String num) {
 		return template.selectOne("board.readOne", num);
 	}
+	
+	public List<Map> readBlist(Map map) {
+		return template.selectList("board.readBlist", map);
+	}
 }

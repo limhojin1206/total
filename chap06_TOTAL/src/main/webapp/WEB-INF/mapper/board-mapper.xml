@@ -18,4 +18,8 @@
 	<select id="readOne" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select * from board where num= #{num}
 	</select>
+	
+	<select id="readBlist" resultType="java.util.HashMap">
+		<![CDATA[select * from (select ROWNUM as r, t.* from(select * from board order by num desc) t )where r>= #{START} and r<=#{END}]]>
+	</select>
 </mapper>

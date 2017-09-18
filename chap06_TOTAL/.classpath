@@ -35,5 +35,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/임호진/workGit/chap06_TOTAL/src/main/webapp/WEB-INF/lib/ojdbc7-12.1.0.2.jar"/>
 	<classpathentry kind="lib" path="D:/임호진/workspace/WebApp/WebContent/WEB-INF/lib/cos.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

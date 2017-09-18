@@ -27,7 +27,7 @@
 	</insert>
 		
 	<select id="getDetail" resultType="java.util.HashMap">
-		select d.*, m.pass, m.email from detail d join member m on d.id=m.id where m.id = #{ID}
+		select * from (select dd.*, p.uri, p.regdate from (select d.*, m.pass, m.email from detail d join member m on d.id=m.id) dd left join PROFILE p on dd.id=p.id where dd.id=#{ID,jdbcType=VARCHAR} order by regdate desc) where rownum=1
 	</select>
 	
 	<select id="idcheck" resultType="java.util.HashMap">
@@ -41,4 +41,13 @@
 	<select id="login" resultType="java.util.HashMap">
 		select * from member where (id=#{ids,jdbcType=VARCHAR} or email=#{ids,jdbcType=VARCHAR}) and pass=#{pass,jdbcType=VARCHAR}
 	</select>	
+	
+	<select id="readAll" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select m.*, p.uri from member m left join (select id, max(uri) as uri from profile group by id) p on m.id =p.id
+	</select>
+	
+	<select id="readMlist" resultType="java.util.HashMap">
+		<![CDATA[select * from (select ROWNUM as r, t.* from(select * from (select m.*, p.uri from member m left join (select id, max(uri) as uri from profile group by id) p on m.id =p.id) order by id asc) t )where r>= #{START} and r<=#{END}]]>
+	</select>
+	
 </mapper>

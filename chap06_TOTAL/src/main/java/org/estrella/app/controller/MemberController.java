@@ -3,6 +3,8 @@ package org.estrella.app.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +86,52 @@ public class MemberController {
 			}
 		}
 		return msg;
+	}
+	
+	@RequestMapping("/all")
+	public String memberListHandle(Map map, HttpSession session) {
+		List<Map> list = mdao.readAll();
+		System.out.println(list.toString());
+		System.out.println(list.size());
+		session.setAttribute("memberlist", list);
+		map.put("title", "MEMBERLIST");
+		map.put("section", "member/all");
+		return "t_expr";
+	}
+	
+	@RequestMapping("/mlist")
+	public String mlistHandle(@RequestParam(name="page", defaultValue="1") int page, HttpSession session, Map map) {
+		List<Map> allList = mdao.readAll();
+		int pagecontroll = 0;
+		if(allList.size()%5.0 == 0) {
+			pagecontroll = allList.size()/5;
+		}else {
+			pagecontroll = (allList.size()/5)+1;
+		}
+		
+		if(page < 1) {
+			page = 1;
+		}else if(page > pagecontroll) {
+			page = pagecontroll;
+		}
+		
+		Map mlist = new HashMap<>();
+		if(page==1) {
+			mlist.put("START", 1);
+			mlist.put("END", 5);
+		}else {
+			mlist.put("START", ((page-1)*5)+1);
+			mlist.put("END", ((page-1)*5)+5);
+		}
+		List<Map> list = mdao.readMlist(mlist);
+		
+		
+		
+		session.setAttribute("memberlist", list);
+		session.setAttribute("memberAllList", allList);
+		map.put("title", "MEMBERLIST " + page + " page");
+		map.put("section", "member/all");
+		map.put("page", page);
+		return "t_expr";
 	}
 }

@@ -10,14 +10,27 @@
 	<div>
 	<c:choose>
 		<c:when test="${! empty auth.URI }">
-			<img id="pre" src="${auth.URI}" style="width:200; height: 200" />
+			<img id="infopre" src="${auth.URI}" style="width:200; height: 200" />
 		</c:when>
 		<c:otherwise>
-			<img id="pre" src="/profiles/default.png" alt="기본이미지" style="width:200; height: 200" />
+			<img id="infopre" src="/profiles/default.png" alt="기본이미지" style="width:200; height: 200" />
 		</c:otherwise>
 	</c:choose>
+	<script>
+		
+		document.getElementById("infopre").onclick= function(){
+			document.getElementById("pbt").click();
+		}
+		document.getElementById("navpre").onclick= function(){
+			document.getElementById("pbt").click();
+		}
+		
+	
+	
+	</script>
+	
 	<br/>
-	<a href="/my/profile"><button type="button">프로필 변경</button></a>
+	<a href="/my/profile"><button id="pbt" type="button" style="display:none">프로필 변경</button></a>
 	</div>
 	<div>
 			<table>

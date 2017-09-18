@@ -33,8 +33,12 @@ public class MyController {
 	@GetMapping("/info")
 	public String infoGetHandle(Map map, HttpSession session) {
 		System.out.println(session.getAttribute("auth").toString());
+		
 		Map dm = (Map)session.getAttribute("auth");
+		System.out.println(dm.toString());
 		Map dmap = mdao.getDetail(dm);
+		System.out.println(dmap.toString());
+		
 		if(((Map)session.getAttribute("auth")).containsKey("uri")) {
 			System.out.println(mdao.prePic(dm).toString());
 			String uri = (String)((Map)mdao.prePic(dm)).get("uri");
@@ -65,7 +69,9 @@ public class MyController {
 		//System.out.println(request.getParameter("nick"));
 		System.out.println(application.getRealPath("/profiles"));
 		
-		ModelAndView mav = new ModelAndView("t_expr");
+		ModelAndView mav = new ModelAndView("redirect:/my/info");
+		
+		
 		System.out.println("파일정보==================");
 		System.out.println(f.toString());
 		System.out.println(f.isEmpty());
@@ -91,5 +97,12 @@ public class MyController {
 		mav.addObject("section", "/my/info");
 		return mav;
 	}
-	
+		
+	@GetMapping("/adjust")
+	public ModelAndView adjustGetHandle() {
+		ModelAndView mav = new ModelAndView("t_expr");
+		mav.addObject("title", "프로필 수정");
+		mav.addObject("section", "my/adjust");
+		return mav;
+	}
 }
