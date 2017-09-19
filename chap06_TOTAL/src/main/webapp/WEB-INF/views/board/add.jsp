@@ -22,7 +22,7 @@
 				<button type="reset">재작성</button>
 			</p>
 		</form>
-				<a href="/board/list"><button>글목록</button></a>
+				<a href="/board/blist"><button>글목록</button></a>
 	</div>
 </div>
 <script>

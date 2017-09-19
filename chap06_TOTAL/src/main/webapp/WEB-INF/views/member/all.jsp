@@ -19,7 +19,7 @@
 			</c:choose>
 		</a> 
 		</c:forEach>
-			<c:if test="${page < (fn:length(memberAllList) / 5) }">▶</c:if>
+		<c:if test="${page < (fn:length(memberAllList) / 5) }">▶</c:if>
 	</div>
 	
 	<table>

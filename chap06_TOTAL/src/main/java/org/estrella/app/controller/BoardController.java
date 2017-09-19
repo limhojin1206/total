@@ -34,7 +34,7 @@ public class BoardController {
 	@RequestMapping(path = "/list")
 	public String listHandle(Map map, HttpServletRequest request) {
 		request.setAttribute("list", bdao.readAll());
-		//System.out.println(bdao.readAll());
+		
 		map.put("section", "board/list");
 		map.put("title", "±Û¸ñ·Ï");
 		return "t_expr";
@@ -83,7 +83,7 @@ public class BoardController {
 	public String handlePost(@RequestParam Map map, HttpServletRequest request) {
 		int rst = bdao.write(map);
 		request.setAttribute("rst", rst);
-		return "redirect:/board/list";
+		return "redirect:/board/blist";
 	}
 
 	@RequestMapping(path = "/view/{num}")

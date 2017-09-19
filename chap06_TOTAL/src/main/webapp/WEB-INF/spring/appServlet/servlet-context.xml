@@ -6,7 +6,9 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:c="http://www.springframework.org/schema/c"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -16,6 +18,13 @@
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
 	<context:component-scan base-package="org.estrella.app" />
+	<!-- websocket handler -->
+	<bean class="org.estrella.app.controller.ws.BasicWSHandler" id="bws" />
+	<websocket:handlers>
+		<websocket:mapping handler="bws" path="/ws/basic"/>
+		<websocket:mapping handler="cws" path="/ws/chat"/>
+		<websocket:mapping handler="aws" path="/ws/alert"/>
+	</websocket:handlers>
 	
 	
 	<!-- multipartresolver 등록 -->

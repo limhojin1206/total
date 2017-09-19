@@ -23,8 +23,12 @@
 		<c:when test="${empty auth}"><a href="/member/login">LOGIN</a> | <a href="/member/join">JOIN</a></c:when>
 		<c:otherwise><a href="/member/logout">LOGOUT </a> | <a href="/my/info">INFO</a></c:otherwise>
 	</c:choose>
-	
-	
-	 | <a href="/market/list">MARKET</a> | <a href="/board/blist">BOARD</a> | <a href="/member/mlist">전체 회원 정보</a>
-	
+	 | <a href="/market/list">MARKET</a> | <a href="/board/blist">BOARD</a> | <a href="/member/mlist">전체 회원 정보</a><br/>
+	 | <a href="javascript:openchat()">CHAT</a>
+	<script>
+	function openchat() {
+		var url = "/chat/main";
+		window.open(url, "chat", "width=300, height=500");
+	}
+</script>
 </div>

@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.estrella.app.controller.ws.AlertWSHandler;
 import org.estrella.app.model.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,9 @@ public class MemberController {
 	ObjectMapper mapper;
 	@Autowired
 	SimpleDateFormat sdf;
+	@Autowired
+	AlertWSHandler aws;
+	
 	
 	@GetMapping("/join")
 	public String joinGetHandle(Map map) {
@@ -56,7 +60,12 @@ public class MemberController {
 			Map lmap = mdao.login(map);
 			System.out.println(lmap.toString());
 			session.setAttribute("auth", lmap);
-			return "redirect:session"; 
+			/*
+			 *	AlertWSHandler를 통해서 , 메세지를 보내보자.
+			 */
+			aws.sendMessage("누군가 가입하였습니다");
+			
+			return "redirect:/"; 
 		}
 		System.out.println("가입실패");
 		return "redirect:join"; 
