@@ -57,9 +57,9 @@ th {
 	</table>
 	<a href="/board/add"><button type="button">글작성</button></a>
 	<div>
-		<c:if test="${page > 1 }">◀</c:if>
 		<c:choose>
 			<c:when test="${(fn:length(boardAllList) % 5.0) == 0}">
+				<a href="/board/blist?page=${page-1}"><c:if test="${page > 1 }">◀</c:if></a>
 				<c:forEach var="ch" begin="1" end="${(fn:length(boardAllList) / 5)}" step="1">
 					<c:choose>
 						<c:when test="${ch == page}">
@@ -70,8 +70,11 @@ th {
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
+				<a href="/board/blist?page=${page+1}"><c:if test="${page < (fn:length(boardAllList) / 5) }">▶</c:if></a>
 			</c:when>
+			
 			<c:otherwise>
+				<a href="/board/blist?page=${page-1}"><c:if test="${page > 1 }">◀</c:if></a>
 				<c:forEach var="ch" begin="1" end="${(fn:length(boardAllList) / 5) +1}" step="1">
 					<c:choose>
 						<c:when test="${ch == page}">
@@ -82,8 +85,8 @@ th {
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
+				<a href="/board/blist?page=${page+1}"><c:if test="${page < (fn:length(boardAllList) / 5 ) }">▶</c:if></a>
 			</c:otherwise>
 		</c:choose>
-		<c:if test="${page < (fn:length(boardAllList) / 5) }">▶</c:if>
 	</div>
 </div>

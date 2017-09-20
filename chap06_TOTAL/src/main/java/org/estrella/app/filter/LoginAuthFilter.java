@@ -17,7 +17,7 @@ public class LoginAuthFilter extends HttpFilter  {
 			throws IOException, ServletException {
 		if(request.getSession().getAttribute("auth") == null) {
 			String uri = request.getRequestURI();
-			if(uri.startsWith("/my") ) {
+			if(uri.startsWith("/my") || uri.startsWith("/memo") || uri.startsWith("/market") ) {
 				String red= request.getRequestURI();
 				if(request.getQueryString()!=null) {
 					red +="?"+request.getQueryString();

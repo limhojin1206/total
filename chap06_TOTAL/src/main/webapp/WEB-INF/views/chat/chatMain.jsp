@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style type="text/css">
+.my-box { border:1px solid; padding:10px; background-color:yellow;}
+</style>
 <div>
 	<h3>CHATTING</h3>
 	<div id="log" style="height:80%;
@@ -42,29 +45,29 @@
 		var a = JSON.parse(e.data);
 		switch(a.mode){
 		case "join" :
-			document.getElementById("log").innerHTML += "<div align=\"center\"><small><b>"+ a.sender + "님께서 입장하셨습니다.(" + a.cnt + "명 접속중)</b></small></div><br/>";
+			document.getElementById("log").innerHTML += "<div align=\"center\" style=\"color:gray\"><small>"+ a.sender + "님께서 입장하셨습니다.(" + a.cnt + "명 접속중)</small></div><br/>";
 			break;
 		case "out" :
-			document.getElementById("log").innerHTML += "<div align=\"center\"><small><b>"+ a.sender + "님께서 나가셨습니다.(" + a.cnt + "명 접속중)</b></small></div><br/>";
+			document.getElementById("log").innerHTML += "<div align=\"center\" style=\"color:gray\"><small>"+ a.sender + "님께서 나가셨습니다.(" + a.cnt + "명 접속중)</small></div><br/>";
 			break;
 		case "send" : 
-			var msg = "["+a.sender+"] " + a.msg;
-			document.getElementById("log").innerHTML += msg+"<br/>";
+			var msg = "<b>["+a.sender+"]</b> " + a.msg;
+			document.getElementById("log").innerHTML += "<mark>"+msg+"</mark><br/>";
 			break;
 		case "my" :
-			document.getElementById("log").innerHTML += "<div align=\"center\"><small><b>채팅방에 입장하였습니다.(" + a.cnt + "명 접속중)</b></small></div><br/>";
+			document.getElementById("log").innerHTML += "<div align=\"center\" style=\"color:gray\"><small>채팅방에 입장하였습니다.(" + a.cnt + "명 접속중)</small></div><br/>";
 			break;
 		case "mysend" :
-			document.getElementById("log").innerHTML += "<div align=\"right\"><b>"+a.msg+"</b></div><br/>";
+			document.getElementById("log").innerHTML += "<div class=\"my-box\" align=\"right\"><b>"+a.msg+"</b></div><br/>";
 			break;
 			
 			
 		}
 		
-			if(document.getElementById("msg").value.length == 0){
-				var loglist = document.getElementById("log");
-				loglist.scrollTop = loglist.scrollHeight+25;
-			}
+		if(document.getElementById("msg").value.length == 0){
+			var loglist = document.getElementById("log");
+			loglist.scrollTop = loglist.scrollHeight+25;
+		}
 		
 	}
 </script>

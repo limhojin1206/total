@@ -66,17 +66,6 @@ public class MarketController {
 		return mav;
 	}
 	
-	/*
-	@RequestMapping(path = "/list")
-	public String listHandle(Map map, HttpServletRequest request) {
-		request.setAttribute("list", mdao.readAll());
-		request.setAttribute("data", mdao.getAll());
-		map.put("section", "list");
-		return "t_m_expre";
-	}
-	*/
-	
-	
 	@RequestMapping("/search")
 	public String searchHandle(@RequestParam Map param, HttpServletRequest request, Map map) {
 		System.out.println(param);
@@ -87,12 +76,20 @@ public class MarketController {
 		return "t_m_expre";
 	}
 	
-	@RequestMapping("/tender/{num}")
-	public String tenderHandle(@PathVariable String num, HttpServletRequest request, Map map) {
+	@GetMapping("/tender/{num}")
+	public String tenderGetHandle(@PathVariable String num, HttpServletRequest request, Map map) {
 		System.out.println("NUM = " + num);
 		request.setAttribute("item", mdao.readOne(num));
 		System.out.println(mdao.readOne(num).toString());
 		map.put("section", "tender");
 		return "t_m_expre";
 	}
+	
+	@PostMapping("/tender/{num}")
+	public String tenderPostHandle(@PathVariable String num, Map map) {
+		map.put("section", "list");
+		return "t_m_expre";
+	}
+	
+	
 }

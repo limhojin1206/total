@@ -11,7 +11,6 @@
 	<thead>
 		<th style="width: 30%;"/>
 		<th style="width: 70%;"/>
-		
 	</thead>
 	<tbody>
 		<tr>
@@ -36,7 +35,7 @@
 	</tbody>
 	</table>
 	<hr/>
-	가격입력하기  : <input type="text" id="price" /><br/>
+	가격입력하기  : <input type="text" id="price" required="required"/><br/>
 	<hr/>
 	<button type="button" id="bt" >입찰</button> | 
 	<a href="/market/list"><button type="button">취소</button></a>

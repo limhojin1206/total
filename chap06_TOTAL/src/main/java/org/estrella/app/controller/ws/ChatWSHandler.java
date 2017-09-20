@@ -48,8 +48,12 @@ public class ChatWSHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		list.remove(session);
-		String json = String.format("{\"mode\":\"out\", \"cnt\":%d, \"sender\":%s  }", list.size(), "사용자_"+session.getId());
-		//System.out.println(json +" at afterConnectionClosed." );
+		Map map = new HashMap<>();
+			map.put("mode", "out");
+			map.put("cnt", list.size());
+			map.put("sender", "사용자_"+session.getId());
+		String json = mapper.writeValueAsString(map);
+		//String json = String.format("{\"mode\":\"out\", \"cnt\":%d, \"sender\":%s  }", list.size(), "사용자_"+session.getId());
 		for(WebSocketSession wss : list) {
 			wss.sendMessage(new TextMessage(json));
 		}

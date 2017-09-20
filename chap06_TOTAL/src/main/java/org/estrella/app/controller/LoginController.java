@@ -37,6 +37,8 @@ public class LoginController {
 			System.out.println("로그인 성공 : " + lmap.toString());
 			Map pmap = mdao.getDetail(lmap);
 			session.setAttribute("auth", pmap);
+			session.setAttribute("auth_id", map.get("ID"));
+			System.out.println(map.get("ID"));
 			if(request.getAttribute("pagemove")!=null) {
 				System.out.println("pagemove 있음 ");
 				return "redirect:"+request.getAttribute("pagemove");
