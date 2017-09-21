@@ -27,7 +27,7 @@ public class MemberDao {
 	}
 	
 	public List<Map> idcheck (Map map) {
-		return template.selectList("member.emailcheck", map);
+		return template.selectList("member.idcheck", map);
 	}
 	
 	public List<Map> emailcheck (Map map) {

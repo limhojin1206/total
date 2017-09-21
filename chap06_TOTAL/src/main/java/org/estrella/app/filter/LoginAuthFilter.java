@@ -22,7 +22,7 @@ public class LoginAuthFilter extends HttpFilter  {
 				if(request.getQueryString()!=null) {
 					red +="?"+request.getQueryString();
 				}
-				response.sendRedirect("/login?redirect="+red);
+				response.sendRedirect("/member/login?redirect="+red);
 				return;
 			}
 		}

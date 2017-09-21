@@ -7,13 +7,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.mail.Message.RecipientType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.estrella.app.controller.ws.AlertWSHandler;
 import org.estrella.app.model.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +46,8 @@ public class MemberController {
 	SimpleDateFormat sdf;
 	@Autowired
 	AlertWSHandler aws;
-	
+	@Autowired
+	JavaMailSender sender;
 	
 	@GetMapping("/join")
 	public String joinGetHandle(Map map) {
@@ -71,6 +77,59 @@ public class MemberController {
 		return "redirect:join"; 
 	}
 	
+	@PostMapping(path="/emailck", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String confirm(@RequestBody(required=false) String body, HttpSession session) throws JsonParseException, JsonMappingException, IOException {
+		Map map = mapper.readValue(body, Map.class);
+		System.out.println("body : "+ body);
+		System.out.println(map.get("email"));
+		String email = (String)map.get("email");
+		String ckmsg = "";
+		UUID u = UUID.randomUUID();
+		String auth_str = u.toString().substring(0,13);
+		session.setAttribute("confirmck", auth_str);
+		try {
+			MimeMessage msg = sender.createMimeMessage();
+			//to
+			msg.setRecipient(RecipientType.TO, new InternetAddress(email));
+			//subject
+			msg.setSubject("welcome");
+			//text
+			String text = "<h1>환영합니다</h1>";
+			text += "가입을 환영합니다.";
+			text += "인증번호는 [ " + auth_str +" ] 입니다.";
+			msg.setText(text,"utf-8", "html");
+			//from
+			sender.send(msg);
+			ckmsg += "전송완료";
+		}catch(Exception e) {
+			e.printStackTrace();
+			ckmsg += "전송실패";
+		}
+		
+		return ckmsg;
+	}
+	
+	@PostMapping(path="/confirmEmail", produces= "text/html;charset=UTF-8")
+	@ResponseBody
+	public String confirmEmail(@RequestBody(required=false) String body, HttpSession session) throws JsonParseException, JsonMappingException, IOException {
+		Map map = mapper.readValue(body, Map.class);
+		System.out.println("body : "+ body);
+		System.out.println(map.get("ck"));
+		String ck = (String)map.get("ck");
+		String confirmck = (String)session.getAttribute("confirmck");
+		System.out.println("confirmck : "+ confirmck);
+		String ckmsg = "";
+		if(ck.equals(confirmck)) {
+			ckmsg = "true";
+			session.setAttribute("confirm", "true");
+		}else {
+			ckmsg = "false";
+		}
+		return ckmsg;
+	}
+	
+	
 	@PostMapping(path="/signup_check/{mode}", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String signupHandle(@PathVariable String mode, @RequestBody(required=false) String body) throws JsonParseException, JsonMappingException, IOException {
@@ -89,9 +148,9 @@ public class MemberController {
 		if(mode.equals("email")) {
 			List list = mdao.emailcheck(map);
 			if(list.size() == 0) {
-				msg = "<span style=\"color:blue\"><b>사용가능한 이메일입니다.</b></span>";
+				msg = "true";
 			}else {
-				msg = "<span style=\"color:red\"><b>사용할수 없는 이메일입니다.</b></span>";
+				msg = "false";
 			}
 		}
 		return msg;
@@ -133,9 +192,6 @@ public class MemberController {
 			mlist.put("END", ((page-1)*5)+5);
 		}
 		List<Map> list = mdao.readMlist(mlist);
-		
-		
-		
 		session.setAttribute("memberlist", list);
 		session.setAttribute("memberAllList", allList);
 		map.put("title", "MEMBERLIST " + page + " page");

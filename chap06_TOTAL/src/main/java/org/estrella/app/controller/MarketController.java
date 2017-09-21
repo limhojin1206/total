@@ -51,18 +51,12 @@ public class MarketController {
 	}
 	@RequestMapping(path = "/list")
 	public ModelAndView listHandle(HttpSession session, HttpServletRequest request) {
-		if(session.getAttribute("auth") != null) {
-			ModelAndView mav = new ModelAndView("t_m_expre");
-			mav.addObject("list", mdao.readAll());
-			mav.addObject("data", mdao.getAll());
-			mav.addObject("section", "list");
-			return mav;
-		}
-		ModelAndView mav = new ModelAndView("t_expr");
-		mav.addObject("section", "member/login");
-		mav.addObject("title", "LOGIN");
-		request.setAttribute("pagemove", "/market/list");
-		System.out.println("pagemove 持失 ");
+		ModelAndView mav = new ModelAndView("t_m_expre");
+		mav.addObject("list", mdao.readAll());
+		mav.addObject("data", mdao.getAll());
+		mav.addObject("section", "list");
+		// request.setAttribute("pagemove", "/market/list");
+		// System.out.println("pagemove 持失 ");
 		return mav;
 	}
 	

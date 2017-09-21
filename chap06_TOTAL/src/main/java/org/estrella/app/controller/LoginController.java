@@ -26,7 +26,7 @@ public class LoginController {
 	public ModelAndView loginHandle(HttpSession session) {
 		ModelAndView mav = new ModelAndView("t_expr");
 		mav.addObject("title", "LOGIN");
-		mav.addObject("section", "member/login");
+		mav.addObject("section", "/member/login");
 		return mav;
 	}
 	
