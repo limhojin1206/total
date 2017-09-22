@@ -41,7 +41,7 @@
 	
 	
 	 | <a href="/market/list">MARKET</a> | <a href="/board/blist">BOARD</a> | <a href="/member/mlist">전체 회원 정보</a><br/>
-	 | <a href="javascript:openchat()">CHAT</a>
+	 | <a href="javascript:openchat()">CHAT</a> | <a href="/parkinfo/parkinfolist">PARKINFO</a>
 </div>
 
 <script>

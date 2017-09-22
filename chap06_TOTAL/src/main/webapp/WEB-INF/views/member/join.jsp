@@ -22,7 +22,17 @@
 							if(document.getElementById("ick").value.length==0){
 								document.getElementById("idck").innerHTML="<b>아아디를 입력해주세요</b>";
 							}else{
-								document.getElementById("idck").innerHTML = this.responseText;
+								if(this.responseText == "true"){
+									flag1=true;
+									console.log(flag1);
+									valid();
+									document.getElementById("idck").innerHTML= "<span style=\"color:blue\"><b>사용가능한 아이디입니다.</b></span>";
+								}else{
+									flag1=false;
+									console.log(flag1);
+									valid();
+									document.getElementById("idck").innerHTML= "<span style=\"color:red\"><b>사용할수 없는 아이디입니다.</b></span>";
+								}
 							}
 						}
 					}
@@ -41,13 +51,15 @@
 				var pck = document.getElementById("pck");
 				if(p.value.length != 0 && pck.value.length != 0){
 					if(p.value==pck.value){
+						flag2=true;
+						console.log(flag2);
+						valid();
 						document.getElementById("passck").innerHTML = "<b style=\"color:blue\">일치합니다</b>";
-						flag1=true;
-						valid();
 					}else{
-						document.getElementById("passck").innerHTML = "<b style=\"color:red\">불일치합니다</b>";
-						flag1=false;
+						flag2=false;
+						console.log(flag2);
 						valid();
+						document.getElementById("passck").innerHTML = "<b style=\"color:red\">불일치합니다</b>";
 					}
 				}else{
 					document.getElementById("passck").innerHTML = "<b>입력이 필요합니다.</b>";
@@ -61,10 +73,12 @@
 					if(p.value==pck.value){
 						document.getElementById("passck").innerHTML = "<b style=\"color:blue\">일치합니다</b>";
 						flag2=true;
+						console.log(flag2);
 						valid();
 					}else{
 						document.getElementById("passck").innerHTML = "<b style=\"color:red\">불일치합니다</b>";
 						flag2=false;
+						console.log(flag2);
 						valid();
 					}
 				}else{
@@ -93,7 +107,7 @@
 								document.getElementById("eckv").style.display="none";
 								document.getElementById("ckip").style.display="block";
 								document.getElementById("ckbt").style.display="block";
-								document.getElementById("eck").readonly = "editable";
+								document.getElementById("eck").readOnly = true;
 								console.log(this.responseText);
 							}
 						}
@@ -101,7 +115,7 @@
 			}
 		
 		</script>
-		<span id="eckv"></span>
+		<span id="eckv"></span><br/>
 		
 			<script>
 				document.getElementById("eck").onkeyup = function() {
@@ -139,12 +153,12 @@
 				}
 			</script>
 			
-		<br/><span id="confirmview"></span>
+		<span id="confirmview"></span>
 		<input type="text" style="width: 173px; display: none;" id="ckip" />
 		<button type="button" style="width: 173px; display: none;" id="ckbt">인증하기</button><br/><br/>
 		<script>
 			document.getElementById("ckbt").onclick = function(){
-				document.getElementById("eck").readonly = true;
+				document.getElementById("eck").readOnly = true;
 				var ckip = document.getElementById("ckbt").innerHTML;
 				if(document.getElementById("ckip").value != null){
 					document.getElementById("ckbt").onclick= function (){
@@ -161,10 +175,17 @@
 										document.getElementById("ckip").style.display= "none";
 										document.getElementById("ckbt").style.display= "none";
 										document.getElementById("confirmview").innerHTML= "<b style=\"color:blue\">인증완료</b>";
-										//flag3=true;
+										flag3=true;
+										console.log(flag3);
+										valid();
 									}else{
 										document.getElementById("confirmview").innerHTML= "<b style=\"color:red\">인증실패</b>";
-										//flag3=false;
+										document.getElementById("eck").readOnly = false;
+										document.getElementById("emailckbt").style.display="block";
+										document.getElementById("eckv").style.display="block";
+										flag3=false;
+										console.log(flag3);
+										valid();
 									}
 								}
 							}
@@ -180,13 +201,12 @@
 <script>
 	var flag1=false;
 	var flag2=false;
-	var flag3=true;
-	
+	var flag3=false;
 	var valid = function(){
-		if(flag1 && flag2 ){
+		if(flag1 && flag2 && flag3){
 			document.getElementById("join").disabled=false;
+		}else{
+			document.getElementById("join").disabled=true;
 		}
 	}
-
-
 </script>

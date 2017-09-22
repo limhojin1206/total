@@ -139,9 +139,9 @@ public class MemberController {
 		if(mode.equals("id")) {
 			List list = mdao.idcheck(map);
 			if(list.size() == 0) {
-				msg = "<span style=\"color:blue\"><b>사용가능한 아이디입니다.</b></span>";
+				msg = "true";
 			}else {
-				msg = "<span style=\"color:red\"><b>사용할수 없는 아이디입니다.</b></span>";
+				msg = "false";
 			}
 		}
 		
