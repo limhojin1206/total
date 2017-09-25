@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component("cws")
 public class ChatWSHandler extends TextWebSocketHandler{
+	
 	@Autowired
 	ObjectMapper mapper;
 	
@@ -32,12 +33,21 @@ public class ChatWSHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		list.add(session);
-		String json = String.format("{\"mode\":\"join\", \"cnt\":%d, \"sender\":\"%s\"  }", list.size(), "사용자_"+session.getId());
+
+		Map<String, Object> hs = session.getAttributes();
+		// HttpSession setAttribute 되어있는 값들이 Map으로 추출됨.
+
+		String json;
+		if((Map)hs.get("auth") != null) {
+			String id = (String)((Map)hs.get("auth")).get("ID");
+			json = String.format("{\"mode\":\"join\", \"cnt\":%d, \"sender\":\"%s\"  }", list.size(),id);
+		}else {
+			json = String.format("{\"mode\":\"join\", \"cnt\":%d, \"sender\":\"%s\"  }", list.size(), "사용자_"+session.getId());
+		}
 		//System.out.println(json +" at afterConnectionEstablished." );
 		for(WebSocketSession wss : list) {
 			if(wss.getId() != session.getId()) {
 				wss.sendMessage(new TextMessage(json));
-				
 			}else{
 				json = String.format("{\"mode\":\"my\", \"cnt\":%d}", list.size());
 				wss.sendMessage(new TextMessage(json));
@@ -48,10 +58,17 @@ public class ChatWSHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		list.remove(session);
+		Map<String, Object> hs = session.getAttributes();
+		
 		Map map = new HashMap<>();
 			map.put("mode", "out");
 			map.put("cnt", list.size());
-			map.put("sender", "사용자_"+session.getId());
+			if((Map)hs.get("auth") != null) {
+				String id = (String)((Map)hs.get("auth")).get("ID");
+				map.put("sender", id);
+			}else {
+				map.put("sender", "사용자_"+session.getId());
+			}
 		String json = mapper.writeValueAsString(map);
 		//String json = String.format("{\"mode\":\"out\", \"cnt\":%d, \"sender\":%s  }", list.size(), "사용자_"+session.getId());
 		for(WebSocketSession wss : list) {
@@ -62,19 +79,29 @@ public class ChatWSHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		System.out.println("handleTextMessage..");
+		Map<String, Object> hs = session.getAttributes();
 		Map map = new HashMap<>();
 		for(WebSocketSession wss : list) {
 			if(wss.getId() != session.getId()) {
 				map.put("mode", "send");
-				map.put("sender", "사용자_"+session.getId());
+				if((Map)hs.get("auth") != null) {
+					String id = (String)((Map)hs.get("auth")).get("ID");
+					map.put("sender", id);
+				}else {
+					map.put("sender", "사용자_"+session.getId());
+				}
 				map.put("msg", message.getPayload());
 				map.put("cnt", list.size());
 				String json = mapper.writeValueAsString(map);
 				wss.sendMessage(new TextMessage(json));
-				
 			}else{
 				map.put("mode", "mysend");
-				map.put("sender", "사용자_"+session.getId());
+				if((Map)hs.get("auth") != null) {
+					String id = (String)((Map)hs.get("auth")).get("ID");
+					map.put("sender", id);
+				}else {
+					map.put("sender", "사용자_"+session.getId());
+				}
 				map.put("msg", message.getPayload());
 				map.put("cnt", list.size());
 				String json = mapper.writeValueAsString(map);
