@@ -50,4 +50,8 @@
 		<![CDATA[select * from (select ROWNUM as r, t.* from(select * from (select m.*, p.uri from member m left join (select id, max(uri) as uri from profile group by id) p on m.id =p.id) order by id asc) t )where r>= #{START} and r<=#{END}]]>
 	</select>
 	
+	<select id="friendlist" resultType="java.util.HashMap">
+		select * from member where id like #{id}
+	</select>
+	
 </mapper>

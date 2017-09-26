@@ -53,4 +53,8 @@ public class MemberDao {
 	public List<Map> readMlist(Map map) {
 		return template.selectList("member.readMlist", map);
 	}
+	
+	public List<Map> friendList(Map map){
+		return template.selectList("member.friendlist", map);
+	}
 }
