@@ -135,7 +135,6 @@ public class MemberController {
 	public String signupHandle(@PathVariable String mode, @RequestBody(required=false) String body) throws JsonParseException, JsonMappingException, IOException {
 		String msg="";
 		Map map = mapper.readValue(body, Map.class);
-		
 		if(mode.equals("id")) {
 			List list = mdao.idcheck(map);
 			if(list.size() == 0) {
@@ -144,7 +143,6 @@ public class MemberController {
 				msg = "false";
 			}
 		}
-		
 		if(mode.equals("email")) {
 			List list = mdao.emailcheck(map);
 			if(list.size() == 0) {
@@ -199,12 +197,5 @@ public class MemberController {
 		map.put("page", page);
 		return "t_expr";
 	}
-	
-	@PostMapping("/findfriend")
-	@ResponseBody
-	public String findFriendPostHandle(@RequestParam Map map, HttpSession session) {
-		List<Map> friendList = mdao.friendList(map);
-		session.setAttribute("friendList", friendList);
-		return "¿Ï·á";
-	}
+
 }

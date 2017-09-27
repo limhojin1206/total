@@ -7,35 +7,27 @@
 		<input type="text" id="srch" style="padding:2px;width:40%; font-size:16pt;"/> 
 	</p>
 </div>
-<div>
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-			</tr>
-		</thead>
-		<tbody>
-		<c:forEach var="t" items="${friendlist}">
-			<tr>
-				<td>${t.ID }</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-
-</div>
+<div align="center" id="list" />
 <script>
-	
 	<%-- select * from member where id like #{id} --%>
 	$("#srch").keyup(function(){
+		$("#list").html("<h4>검색결과</h4>")
 		var a = $("#srch").val();
 		console.log(a);
+		if(a.length==0){
+			return;
+		}
+		
 		$.ajax({
-			"uri" : "member/friendlist",
+			"url" : "searchAjax",
 			"data" : {
 				"id" : $("#srch").val()
 			}
 		}).done(function(obj){
+			for (var i = 0; i < obj.length; i++) {
+				var t =  "<b>"+obj[i].ID +"</b> ("+ obj[i].EMAIL + ")<br/>";
+				$("#list").append(t);	
+			}
 		});
 	});
 
