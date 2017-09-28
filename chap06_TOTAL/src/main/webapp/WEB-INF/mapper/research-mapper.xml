@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="research">
 	<select id="result" resultType="java.util.HashMap">
-		select  * from (select score||'점' as score, count(*) as cnt from research group by SCORE) order by score asc
+		select score||'점' as score, count(*) as cnt from research group by SCORE order by score asc
+	</select>
+	
+	<select id="result_2" resultType="java.util.HashMap">
+		select count(*) as cnt from research where score=#{score}
 	</select>
 </mapper>

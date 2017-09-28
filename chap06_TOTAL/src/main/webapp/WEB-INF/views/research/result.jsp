@@ -16,12 +16,10 @@
   			"url" : "/research/showresult",
   			"async" : false
   		}).done(function(obj){
+  			console.log(obj);
   			str = obj;
   		});
-    	  
     	var data = new google.visualization.arrayToDataTable(str);
-       
-
         var options = {
           width: 400,
           legend: { position: 'none' },
@@ -36,7 +34,6 @@
           },
           bar: { groupWidth: "90%" }
         };
-
         var chart = new google.charts.Bar(document.getElementById('chartV'));
         // Convert the Classic options to Material options.
         chart.draw(data, google.charts.Bar.convertOptions(options));

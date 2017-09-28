@@ -10,7 +10,3 @@
 		어떻게 꾸밀까나...
 	</div>
 </div>
-
-<script>
-	print();
-</script>

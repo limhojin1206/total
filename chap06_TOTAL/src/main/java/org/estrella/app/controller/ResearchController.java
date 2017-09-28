@@ -1,6 +1,7 @@
 package org.estrella.app.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -41,24 +42,15 @@ public class ResearchController {
 	@RequestMapping(path="/showresult",  produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String showresultHandle() throws JsonProcessingException {
-		List<Map> list = rdao.result();
-		Set set = new LinkedHashSet<>();
-		Object[] role = new Object[] {"Element", "인원수"};
-		Map map = new HashMap<>();
-		for(int i=1;i<6;i++) {
-			set.add(new Object[] {(String)(i+"점"), 0});
-		}
-		for(Map m : list) {
-			Object[] ar = new Object[] {m.get("SCORE"),m.get("CNT")};
-			System.out.println(m.get("SCORE"));
-			set.add(ar);
-		}
-
-		
+		Object[] role = new Object[] {"점수", "인원수"};
 		List json = new ArrayList();
 			json.add(role);
-			json.addAll(set);
-			//System.out.println(mapper.writeValueAsString(json));
+		for(int i=1;i<6;i++) {
+			Map map = rdao.result_2(i);
+			Object[] o = new Object[] {	i+"점", map.get("CNT")};
+			json.add(o);
+		}
+		//System.out.println(mapper.writeValueAsString(json));
 		return mapper.writeValueAsString(json);
 	}
 

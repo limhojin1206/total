@@ -1,0 +1,11 @@
+h3{
+	background-color : silver;
+	font-size: 30pt;
+}
+.circle{
+	border-radius: 20px;
+}
+.bluebold{
+	color: blue;
+	font-weight: bold;
+}

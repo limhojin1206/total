@@ -33,6 +33,7 @@ public class SearchController {
 		return mdao.friendList(id+"%");
 	}
 	
+	
 	/*
 	@RequestMapping("/searchAjaxx")
 	public ModelAndView searchIdAjaxxHandle(@RequestParam String id) {

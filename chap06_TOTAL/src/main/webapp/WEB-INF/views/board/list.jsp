@@ -12,7 +12,7 @@ th {
 </style>
 <div align="center">
 	<h2>게시판</h2> 
-	<table style="width: 60%;">
+	<table style="width: 60%;" class="table">
 		<thead>
 			<tr>
 				<th width="20%">글번호</th>

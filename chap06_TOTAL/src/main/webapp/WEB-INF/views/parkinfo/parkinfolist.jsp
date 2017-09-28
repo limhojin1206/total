@@ -8,9 +8,10 @@
 	<form action="/parkinfo/parkinfolist" method="get">주소 검색 : <input type="text" name ="parkinfosearch" value="${param.parkinfosearch }" /></form>
 	총 ${fn:length(parkinfoalllist) } 개 <br/><br/>
 	
+	
 	<div>
 		<a href="/parkinfo/parkinfolist?parkinfosearch=${param.parkinfosearch }&page=${page-1}"><c:if test="${page > 1 }">◀</c:if></a>
-		<c:forEach var="ch" begin="1" end="${((fn:length(parkinfoalllist) % 10.0)==0) ? (fn:length(parkinfoalllist) / 10) : (fn:length(parkinfoalllist) / 10) +1    }" step="1">
+		<c:forEach var="ch" begin="${pb }" end="${pe }" step="1">
 			<c:choose>
 				<c:when test="${ch == page}">
 					<b>[${ch}]</b>
@@ -22,7 +23,7 @@
 		</c:forEach>
 		<a href="/parkinfo/parkinfolist?parkinfosearch=${param.parkinfosearch }&page=${page+1}"><c:if test="${page < (fn:length(parkinfoalllist) / 10) }">▶</c:if></a>
 	</div>
-
+ 	
 
 	<table style="width: 80%;">
 		<thead>

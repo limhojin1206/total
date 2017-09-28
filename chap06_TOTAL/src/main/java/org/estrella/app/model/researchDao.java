@@ -16,4 +16,8 @@ public class researchDao {
 	public List<Map> result(){
 		return template.selectList("research.result");
 	}
+	
+	public Map result_2(int score){
+		return template.selectOne("research.result_2", score);
+	}
 }
