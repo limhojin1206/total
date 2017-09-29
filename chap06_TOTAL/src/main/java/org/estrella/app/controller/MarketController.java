@@ -1,13 +1,17 @@
 package org.estrella.app.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.estrella.app.model.MarketDao;
+import org.estrella.app.model.MarketLogDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +32,9 @@ public class MarketController {
 
 	@Autowired
 	MarketDao mdao;
+	@Autowired
+	MarketLogDao mldao;
+	
 	@Autowired
 	ObjectMapper mapper;
 	
@@ -80,9 +87,23 @@ public class MarketController {
 	}
 	
 	@PostMapping("/tender/{num}")
-	public String tenderPostHandle(@PathVariable String num, Map map) {
-		map.put("section", "list");
-		return "t_m_expre";
+	@ResponseBody
+	public void tenderPostHandle(@PathVariable String num, @RequestParam Map map) {
+		System.out.println(map.toString());
+		int r = mldao.tender(map);
+		if(r == 1) {
+			System.out.println("ÀÔÂû ¼º°ø");
+			mldao.updatetender(map);
+		}
+		
+	}
+	
+	@RequestMapping("/tenderlist")
+	@ResponseBody
+	public List tenderlistHandle(@RequestParam Map map, HttpServletRequest request ) {
+		System.out.println("tanderlistÀÇ ¸Ê: " + map.toString());
+		request.setAttribute("item", mdao.readOne((String)map.get("itemnum")));
+		return mldao.tenderlist(map);
 	}
 	
 	

@@ -8,7 +8,10 @@
  	</div>
 	<div class="col-sm-9">
 		<div>
-		<form action="/member/login" method="post">
+		<form action="/member/login" method="post" autocomplete="off">
+			<c:if test="${ !empty param.redirect }">
+					<input type="hidden" name="redirect" value="${param.redirect }" />
+				</c:if>
 			<h2>로그인</h2>
 			<c:if test="${!empty temp }">
 				<b style="color: red">login failed..</b>

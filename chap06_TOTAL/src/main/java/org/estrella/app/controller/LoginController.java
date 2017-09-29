@@ -31,26 +31,27 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String loginHandle(@RequestParam Map map, HttpSession session, Model model, HttpServletRequest request) {
+	public ModelAndView loginHandle(@RequestParam Map map, HttpSession session, @RequestParam(name="redirect", required=false) String url) {
+		ModelAndView mav = new ModelAndView();
 		Map lmap = mdao.login(map);
 		if(lmap !=null) {
-			System.out.println("로그인 성공 : " + lmap.toString());
+			System.out.println("로그인 성공");
 			Map pmap = mdao.getDetail(lmap);
 			session.setAttribute("auth", pmap);
 			session.setAttribute("auth_id", map.get("ID"));
-			System.out.println(map.get("ID"));
-			if(request.getAttribute("pagemove")!=null) {
-				System.out.println("pagemove 있음 ");
-				return "redirect:"+request.getAttribute("pagemove");
+			if(url != null) {
+				mav.setViewName("redirect:"+url);
+			}else {
+				mav.setViewName("redirect:/");
 			}
-			return "redirect:/"; 
 		}else {
 			System.out.println("로그인 실패");
-			model.addAttribute("section", "/member/login");
-			model.addAttribute("title","로그인 실패");
-			model.addAttribute("temp", "fail");
+			mav.setViewName("t_expr");
+			mav.addObject("section", "/member/login");
+			mav.addObject("title", "로그인 실패");
+			mav.addObject("temp", "fail");
 		}
-		return "t_expr"; 
+		return mav; 
 	}
 	
 	@RequestMapping("/logout")

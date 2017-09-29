@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div>
-		<a href="/board/list"><button type="button">전체글</button></a>
+		<a href="/board/blist"><button type="button">전체글</button></a>
 	</div>
 </div>
 

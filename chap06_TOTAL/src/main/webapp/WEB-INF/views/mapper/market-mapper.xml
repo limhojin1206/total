@@ -28,4 +28,17 @@
 	<select id="getAll" resultType="java.util.HashMap">
 		select p.deadline-sysdate as gab, p.* from market p
 	</select>
+	
+	<insert id="tender">
+		insert into MARKETLOG values( MARKETLOG_SEQ.NEXTVAL, #{itemnum},#{price},#{id}, sysdate)
+	</insert>
+	
+	<update id="updatetender">
+		update market set NOWPRICE=#{price}, ID=#{id} where NUM=#{itemnum}
+	</update>
+	
+	<select id="tenderlist" resultType="java.util.HashMap">
+		select * from marketlog where itemnum=#{itemnum} order by price desc
+	</select>
+	
 </mapper>

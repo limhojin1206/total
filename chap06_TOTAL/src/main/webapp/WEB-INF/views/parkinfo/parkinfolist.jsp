@@ -7,13 +7,12 @@
 	<h2>주차장 정보</h2>
 	<form action="/parkinfo/parkinfolist" method="get">주소 검색 : <input type="text" name ="parkinfosearch" value="${param.parkinfosearch }" /></form>
 	총 ${fn:length(parkinfoalllist) } 개 <br/><br/>
-	
-	
 	<div>
-		<a href="/parkinfo/parkinfolist?parkinfosearch=${param.parkinfosearch }&page=${page-1}"><c:if test="${page > 1 }">◀</c:if></a>
+	<c:set var="p" value="${empty param.page ? 1 : param.page}"></c:set>
+		<a href="/parkinfo/parkinfolist?parkinfosearch=&page=${p-1}"><c:if test="${p > 1 }">◀</c:if></a>
 		<c:forEach var="ch" begin="${pb }" end="${pe }" step="1">
 			<c:choose>
-				<c:when test="${ch == page}">
+				<c:when test="${ch == p}">
 					<b>[${ch}]</b>
 				</c:when>
 				<c:otherwise>
@@ -21,7 +20,7 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-		<a href="/parkinfo/parkinfolist?parkinfosearch=${param.parkinfosearch }&page=${page+1}"><c:if test="${page < (fn:length(parkinfoalllist) / 10) }">▶</c:if></a>
+		<a href="/parkinfo/parkinfolist?&page=${p+1}"><c:if test="${p < (fn:length(parkinfoalllist) / 10) }">▶</c:if></a>
 	</div>
  	
 
